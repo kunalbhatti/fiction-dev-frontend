@@ -1,0 +1,55 @@
+<div [ngClass]="{'container-fluid overflow-auto' : overflow}" [ngStyle]="{height: containerHeight}">
+  <div class="row mt-2" *ngIf="researchData">
+    <div class="col-12">
+      <span class="font-weight-bold">Name: </span>{{researchData.name | titlecase}}
+      <hr>
+    </div>
+
+    <div class="col-12">
+      <span class="font-weight-bold">Technology: </span>{{researchData.technology | titlecase}}
+      <hr>
+    </div>
+
+    <div class="col-12">
+      <span class="font-weight-bold">Status: </span>{{researchData.status | titlecase}}
+      <hr>
+    </div>
+
+    <div class="col-12">
+      <span class="font-weight-bold">About: </span>{{researchData.description | titlecase}}
+      <hr>
+    </div>
+
+    <div class="col-12" *ngIf="!showMore">
+      <span class="font-weight-bold">Content: </span>
+      <div class="mt-2" [innerHTML]="researchData.content | keepHtml">
+      </div>
+      <hr>
+    </div>
+  </div>
+  <div class="row" *ngIf="projectTagArr().length >= 1 && showMore">
+    <div class="col-12 font-weight-bold">
+      Project Tags:
+    </div>
+    <div class="col-12 mt-2" *ngFor="let projectTag of projectTagArr()">
+      <a class="btn-link" [routerLink]="['/', 'projects', projectTag[0]]">{{projectTag[1] | titlecase}}</a>
+    </div>
+  </div>
+  <hr *ngIf="projectTagArr().length >= 1 && showMore">
+  <div class="row" *ngIf="researchTagArr().length >= 1 && showMore">
+    <div class="col-12 font-weight-bold">
+      Research Tags:
+    </div>
+    <div class="col-12 mt-2" *ngFor="let researchTag of researchTagArr()">
+      <a class="btn-link" [routerLink]="['/', 'research', researchTag[0]]">{{researchTag[1] | titlecase}}</a>
+    </div>
+  </div>
+  <hr *ngIf="researchTagArr().length >= 1 && showMore">
+  <div class="row p-3" *ngIf="showMore">
+    <div class="col-12 text-right">
+      <button mat-button class="text-primary" [routerLink]="['/', 'research', researchData.id]">
+        View More <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<div [ngClass]="{'container-fluid overflow-auto' : overflow}" [ngStyle]="{height: containerHeight}">
+  <div class="row">
+    <div class="col-12 mt-3">
+      <span class="font-weight-bold">Name: </span>{{projectData.name | titlecase}}
+    </div>
+
+    <div class="col-12 mt-2">
+      <span class="font-weight-bold">Type: </span>{{projectData.type | titlecase}}
+    </div>
+
+    <div class="col-12">
+      <hr>
+      <div>
+        <span class="font-weight-bold">Language: </span>{{projectData.language | titlecase}}
+      </div>
+      <div class="mt-2">
+        <span class="font-weight-bold">Frontend: </span>{{projectData.frontend | titlecase}}
+      </div>
+      <div class="mt-2">
+        <span class="font-weight-bold">Backend: </span>{{projectData.backend | titlecase}}
+      </div>
+      <hr>
+    </div>
+
+    <div class="col-12">
+      <span class="font-weight-bold">Status: </span>{{projectData.status | titlecase}}
+      <hr>
+    </div>
+
+    <div class="col-12">
+      <span class="font-weight-bold">About: </span>{{projectData.description}}
+      <hr>
+    </div>
+
+    <div class="col-12">
+      <div *ngIf="projectData.gitLink">
+        <span class="font-weight-bold">GitHub: </span><a class="btn-link" target="_blank"
+          [href]="projectData.gitLink">View
+          GibHub Repository</a>
+      </div>
+      <div class="mt-2" *ngIf="projectData.deployLink">
+        <span class="font-weight-bold">Live: </span><a class="btn-link" target="_blank"
+          [href]="projectData.deployLink">View
+          Deployed Project</a>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row" *ngIf="projectTagArr().length >= 1 && showMore">
+    <div class="col-12 font-weight-bold">
+      Project Tags:
+    </div>
+    <div class="col-12 mt-2" *ngFor="let projectTag of projectTagArr()">
+      <a class="btn-link" [routerLink]="['/', 'projects', projectTag[0]]">{{projectTag[1] | titlecase}}</a>
+    </div>
+  </div>
+  <hr *ngIf="projectTagArr().length >= 1 && showMore">
+  <div class="row" *ngIf="researchTagArr().length >= 1 && showMore">
+    <div class="col-12 font-weight-bold">
+      Research Tags:
+    </div>
+    <div class="col-12 mt-2" *ngFor="let researchTag of researchTagArr()">
+      <a class="btn-link" [routerLink]="['/', 'research', researchTag[0]]">{{researchTag[1] | titlecase}}</a>
+    </div>
+  </div>
+  <hr *ngIf="researchTagArr().length >= 1 && showMore">
+  <div class="row p-3">
+    <div class="col-12 text-right" *ngIf="showMore">
+      <button mat-button class="text-primary" [routerLink]="['/', 'projects', projectData.id]">
+        View More <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

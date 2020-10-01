@@ -1,0 +1,39 @@
+<div class="container-fluid overflow-auto" style="height: calc(100vh - 125px);">
+
+  <div class="row">
+    <div class="col-12">
+      <div class="row align-content-start">
+        <div class="col-12 d-flex justify-content-center position-relative" style="top: 25vh; z-index: 1;" *ngIf="loadingData === 'loading'">
+          <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
+        </div>
+        <div class="col-12 text-center position-relative text-muted" style="top: 25vh" *ngIf="loadingData === '' && posts.length === 0">
+          No Items Found...
+        </div>
+        <div class="card w-100 my-2 mx-1 mx-md-3 shadow"
+          *ngFor="let post of posts; let i = index; trackBy: trackByStatusId">
+          <div class="card-body">
+            <span *ngIf="i >= 10">
+              <button matTooltip="Archived" disabled mat-icon-button>
+                <mat-icon>archive</mat-icon>
+              </button>
+              <a class="btn-link">Go to Post</a>
+            </span>
+            <div class="card-title">
+              <div class="font-weight-bold card-title-text">{{post.title}}
+              </div>
+              <div class="card-subtitle text-muted">
+                {{(post.date != null) ? (post.date.toDate() | date: 'dd MMM yy'):""}}
+              </div>
+            </div>
+
+            <img *ngIf="post.photo" class="card-img-top" [src]="post.photo" alt="Image could not be loaded.">
+            <div *ngIf="post.link" class="embed-responsive embed-responsive-16by9">
+              <iframe class="embed-responsive-item" [src]="post.link | sanitize" allowfullscreen></iframe>
+            </div>
+            <app-editor *ngIf="post.code" [code]="post.code" [mode]="post.language"></app-editor>
+
+            <p class="card-text mt-2">{{post.status}}</p>
+          </div>
+          <app-comment-box [postCount]="i" type="post" [postData]="post"></app-comment-box>
+        </div>
+      </div>

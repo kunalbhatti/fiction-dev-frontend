@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" [routerLink] = "['/', 'home']">How To Gizmo</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbar">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item mr-2" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/', 'home']"> Home </a>
+      </li>
+      <li class="nav-item mr-2" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/', 'projects']"> Projects </a>
+      </li>
+      <li class="nav-item mr-2" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/', 'research']"> Research </a>
+      </li>
+    </ul>
+    <ul class="navbar-nav my-2 my-lg-0 pointer">
+      <li class="nav-item" *ngIf="!isLoggedIn">
+        <a class="nav-link" (click)="login()"><mat-icon svgIcon="google"></mat-icon>Login</a>
+      </li>
+
+
+        <li class="nav-item dropdown" *ngIf="isLoggedIn">
+          <a class="nav-link dropdown-toggle" type="button" id="userOptions" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            {{userName | titlecase}}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="userOptions">
+            <a class="dropdown-item" (click)="logout()">Logout</a>
+          </div>
+        </li>
+
+    </ul>
+  </div>
+</nav>

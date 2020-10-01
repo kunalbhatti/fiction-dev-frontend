@@ -1,0 +1,20 @@
+.box-icons{
+	max-height: 1.2rem;
+	max-width: 1.2rem;
+}
+.icon-text{
+	font-size: 0.8rem;
+}
+.comment-box{
+  background-color: #EBE5E5;
+}
+
+.comment-container {
+  background-color: #d8dce7;
+  height: calc(100vh - 200px);
+}
+
+.input-container {
+  height: 76px;
+  background-color: #d8dce7;
+}

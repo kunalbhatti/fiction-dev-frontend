@@ -1,0 +1,87 @@
+<div class="row comment-container overflow-auto">
+  <div class="col-12">
+    <div class="container-fluid w-100">
+      <div class="row border border-dark rounded p-2 my-2 comment-box"
+        *ngFor="let comment of comments; trackBy: trackByCommentId; let i = index;">
+
+        <div class="col-6 text-muted mt-2">
+          {{(comment.date != null) ? (comment.date.toDate() | date: 'dd MMM yy'):""}}
+        </div>
+        <div class="col-6 text-right">
+          <button *ngIf="comment.uid === loggedUserId && isLoggedIn" mat-icon-button matTooltip="Update" (click)="selectedComment = {
+                  uid: comment.uid,
+                  cid: comment.id,
+                  commentData : comment.comment}">
+            <mat-icon style="font-size: 1.1rem" color="primary">sync</mat-icon>
+          </button>
+
+          <button *ngIf="comment.uid === loggedUserId && isLoggedIn" mat-icon-button matTooltip="Delete"
+            (click)="deleteComment(comment.id)">
+            <mat-icon style="font-size: 1.1rem" color="warn">clear</mat-icon>
+          </button>
+        </div>
+
+        <div class="col-12 my-2">
+          {{comment.comment}}
+        </div>
+
+        <div class="col-6">
+          <div class="row justify-content-start flex-sm-row">
+            <button [disabled]="!isLoggedIn" mat-icon-button (click)="manageCommentVote('like', comment, i)">
+              <mat-icon style="color:#5BB06A">arrow_drop_up</mat-icon>
+            </button>
+            <button mat-icon-button disabled class="mx-n3">
+              {{comment.voteCount}}
+            </button>
+            <button [disabled]="!isLoggedIn" mat-icon-button (click)="manageCommentVote('dislike', comment, i)">
+              <mat-icon style="color: #FA6764">arrow_drop_down</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="col-6 d-flex justify-content-end align-items-center text-muted">
+          {{comment.name}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 text-center text-muted mt-2">
+          <button *ngIf="comments.length < postData.commentCount" [disabled]="eof === 'loading'" disableRipple="true"
+            mat-button (click)="loadNextComments()">
+            <span *ngIf="eof === 'loading' && postData.commentCount != 0">
+              <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+            </span>
+            <span *ngIf="eof === '' && comments.length < postData.commentCount">
+              <mat-icon>more_horiz</mat-icon>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row border" [ngStyle] = "{height: inputContainerHeight}">
+
+  <form class="col-12 h-100" (ngSubmit)="postComment(f)" #f="ngForm" *ngIf="selectedComment.cid === ''">
+    <div class="row h-100">
+      <div class="input-group w-100">
+        <textarea name="comment" [disabled] = "!isLoggedIn" ngModel class="col-10 rounded-0 form-control" type="text"
+          placeholder="Comment..." style="resize: none;"></textarea>
+        <button type="submit" [disabled] = "!isLoggedIn" class="col-2 rounded-0 btn btn-danger">Post</button>
+      </div>
+    </div>
+  </form>
+
+  <form class="col-12" (ngSubmit)="updateComment(f)" #f="ngForm" *ngIf="selectedComment.cid !== ''">
+    <div class="row h-100">
+      <div class="input-group w-100">
+        <textarea name="comment" [disabled] = "!isLoggedIn" [ngModel]=selectedComment.commentData class="col-7 col-sm-9 rounded-0 form-control"
+          type="text" placeholder="Comment..." style="resize: none;"></textarea>
+
+        <button type="submit" [disabled] = "!isLoggedIn"
+          class="col-3 col-sm-2 rounded-0 btn btn-success d-flex justify-content-center align-items-center">Update</button>
+        <button type="button" (click)="selectedComment.cid = ''" [disabled] = "!isLoggedIn"
+          class="col-2 col-sm-1 rounded-0 btn btn-danger d-flex justify-content-center align-items-center">
+          x</button>
+      </div>
+    </div>
+  </form>
+</div>

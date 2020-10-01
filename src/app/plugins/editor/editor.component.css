@@ -1,0 +1,10 @@
+
+.hide-scrollbar {
+    scrollbar-width: none !important;  /* Firefox */	
+}
+
+.ace_scrollbar {
+    display: none !important;
+}
+
+

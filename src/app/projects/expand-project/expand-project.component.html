@@ -1,0 +1,105 @@
+<div class="container-fluid" *ngIf="mediaSize !== 'xs'">
+
+  <div class="row" *ngIf="projectData">
+    <div class="col-12 d-flex justify-content-center align-items-center text-light py-2"
+      style="font-size: 1.1rem; background-color:#3765F0;">
+      <a class="nav-link pointer text-light position-absolute" style="left: 0.5%;" (click)="goBack()">
+        <mat-icon>keyboard_backspace
+        </mat-icon>
+      </a>
+      <span class="mx-auto">Project</span>
+
+    </div>
+    <div class="col-12 col-md-7">
+      <div class="row mat-tab-labels text-light pointer">
+        <div class="col py-2 text-center" [ngClass]="{'custom-label-active' : selectedTab === 'basic'}"
+          (click)="selectedTab = 'basic'">
+          Basic
+        </div>
+        <div class="col py-2 text-center" [ngClass]="{'custom-label-active' : selectedTab === 'tags'}"
+          (click)="selectedTab = 'tags'">
+          Tags
+        </div>
+        <div class="col py-2 text-center" [ngClass]="{'custom-label-active' : selectedTab === 'notes'}"
+          (click)="selectedTab = 'notes'">
+          Notes
+        </div>
+
+      </div>
+      <app-project-basic *ngIf="selectedTab === 'basic'" [projectData]="projectData"
+        containerHeight="calc(100vh - 125px)">
+      </app-project-basic>
+
+      <app-project-notes *ngIf="selectedTab === 'notes'" [statusTags]="statusTags">
+      </app-project-notes>
+
+      <app-project-tags *ngIf="selectedTab === 'tags'" [researchTags]="researchTags" [projectTags]="projectTags">
+      </app-project-tags>
+
+    </div>
+
+    <div class="col-md-5 border-left">
+      <div class="row mat-tab-labels text-light pointer">
+        <div class="col-12 py-2 text-center bg-success">
+          Comments
+        </div>
+      </div>
+      <div class="row" style="height: calc(100vh - 123px)">
+        <div class="col-12">
+          <app-project-comments [postData]="projectData" type="project"></app-project-comments>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="mediaSize === 'xs'">
+
+  <div class="row" *ngIf="projectData">
+    <div class="col-12 d-flex justify-content-center align-items-center text-light py-2"
+      style="font-size: 1.1rem; background-color:#3765F0;">
+      <a class="nav-link pointer text-light position-absolute" style="left: 0.5%;" (click)="goBack()">
+        <mat-icon>keyboard_backspace
+        </mat-icon>
+      </a>
+      <span class="mx-auto">Project</span>
+
+    </div>
+    <div class="col-12 col-md-7">
+      <div class="row mat-tab-labels text-light pointer">
+        <div class="col py-2 text-center" [ngClass]="{'custom-label-active' : selectedTab === 'basic'}"
+          (click)="selectedTab = 'basic'">
+          Basic
+        </div>
+        <div class="col py-2 text-center" [ngClass]="{'custom-label-active' : selectedTab === 'tags'}"
+          (click)="selectedTab = 'tags'">
+          Tags
+        </div>
+        <div class="col py-2 text-center" [ngClass]="{'custom-label-active' : selectedTab === 'notes'}"
+          (click)="selectedTab = 'notes'">
+          Notes
+        </div>
+        <div class="col py-2 text-center" [ngClass]="{'custom-label-active' : selectedTab === 'comments'}"
+          (click)="selectedTab = 'comments'">
+          Comments
+        </div>
+      </div>
+      <app-project-basic *ngIf="selectedTab === 'basic'" [projectData]="projectData"
+        containerHeight="calc(100vh - 125px)">
+      </app-project-basic>
+
+      <app-project-notes *ngIf="selectedTab === 'notes'" [statusTags]="statusTags">
+      </app-project-notes>
+
+      <app-project-tags *ngIf="selectedTab === 'tags'" [researchTags]="researchTags" [projectTags]="projectTags">
+      </app-project-tags>
+
+      <div class="row" style="height: calc(100vh - 123px)" *ngIf="selectedTab === 'comments'">
+        <div class="col-12">
+          <app-project-comments [postData]="projectData" type="project"></app-project-comments>
+        </div>
+      </div>
+
+    </div>
+  </div>

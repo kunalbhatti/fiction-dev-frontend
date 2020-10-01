@@ -1,0 +1,66 @@
+<div class="row" style="height: calc(100vh - 128px);">
+  <div class="col-12">
+    <div class="row align-content-start overflow-auto"
+      [ngStyle] = "{height: mainContainerHeight}">
+
+      <div class="accordion col-12" id="project_tags" *ngIf="selectedTab === 'projects'">
+
+        <div class="text-center position-relative text-muted" style="top: 25vh" *ngIf="projectTags.length === 0">
+          No Items Found...
+        </div>
+        <div class="card my-3 rounded accordian-border shadow" *ngFor="let project of projectTags; let i = index;">
+          <div class="card-header btn text-primary" [id]="'project_heading_' + i" type="button" data-toggle="collapse"
+            [attr.data-target]="'#project_' + i" aria-expanded="true" [attr.aria-controls]="'project_' + i"
+            (click)="getProject(project[0])">
+            {{project[1]}}
+          </div>
+
+          <div [id]="'project_' + i" class="collapse" [attr.aria-labelledby]="'project_heading' + i"
+            data-parent="#project_tags">
+            <div class="card-body row justify-content-center align-items-center" *ngIf="selectedProject === 'loading'">
+              <mat-progress-spinner diameter="20" mode="indeterminate">
+              </mat-progress-spinner>
+            </div>
+            <div class="card-body" *ngIf="selectedProject.name">
+              <app-project-basic [projectData]="selectedProject" showMore="false" overflow="false"></app-project-basic>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion col-12" id="research_tags" *ngIf="selectedTab === 'research'">
+        <div class="text-center position-relative text-muted" style="top: 25vh" *ngIf="researchTags.length === 0">
+          No Items Found..
+        </div>
+        <div class="card my-3 rounded accordian-border shadow" *ngFor="let research of researchTags; let i = index;">
+          <div class="card-header btn text-primary" [id]="'research_heading_' + i" type="button" data-toggle="collapse"
+            [attr.data-target]="'#research_' + i" aria-expanded="true" [attr.aria-controls]="'research_' + i"
+            (click)="getResearch(research[0])">
+            {{research[1]}}
+          </div>
+
+          <div [id]="'research_' + i" class="collapse" [attr.aria-labelledby]="'research_heading' + i"
+            data-parent="#research_tags">
+            <div class="card-body row justify-content-center align-items-center" *ngIf="selectedResearch === 'loading'">
+              <mat-progress-spinner diameter="20" mode="indeterminate">
+              </mat-progress-spinner>
+            </div>
+            <div class="card-body" *ngIf="selectedResearch.name">
+              <app-research-basic [researchData]="selectedResearch" showMore="false" overflow="false">
+              </app-research-basic>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row text-light pointer border-bottom" style = "height: 30px;">
+      <div class="col-6 py-2 d-flex justify-content-center align-items-center" (click)="selectedTab = 'projects'"
+        [ngClass]="(selectedTab === 'projects') ?  'custom-label-active-full' : 'mat-tab-labels'">
+        Projects</div>
+      <div class="col-6 py-2 d-flex justify-content-center align-items-center" (click)="selectedTab = 'research'"
+        [ngClass]="(selectedTab === 'research') ?  'custom-label-active-full' : 'mat-tab-labels'">
+        Research</div>
+    </div>
+  </div>
+</div>

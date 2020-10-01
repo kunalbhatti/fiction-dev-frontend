@@ -1,0 +1,112 @@
+<div class="container-fluid" *ngIf="mediaSize !== 'xs'">
+  <div class="row">
+
+    <div class="col-3 border-right" style="height: calc(100vh - 52px);">
+      <div class="row mat-tab-labels text-light pointer" style="font-size: 1.1rem;">
+        <div class="col-6 text-center" routerLinkActive="custom-label-active"
+          [routerLink]="['/', 'research', 'display-research', 'concepts']">
+          <div class="my-2">Concepts</div>
+        </div>
+        <div class="col-6 text-center" routerLinkActive="custom-label-active"
+          [routerLink]="['/', 'research', 'display-research', 'codes']">
+          <div class="my-2">Code</div>
+        </div>
+      </div>
+
+      <div class="row w-100 d-flex justify-content-center py-2 position-fixed" style="top: 50vh; z-index: 1;"
+        *ngIf="loadingContent === 'loading'">
+        <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
+      </div>
+
+      <div class="row justify-content-center align-items-start overflow-auto" style="height: 94%">
+        <div class="card w-100 my-1 mx-1 pointer"
+          [ngClass]="(selectedResearch.id===research.id) ?  'selected-card' : 'card'"
+          *ngFor="let research of researchList" (click)="selectedResearch = research;">
+          <img [src]="research.thumbnail" class="card-img-top" alt="..."
+            onerror="this.src='/assets/image-not-found.jpg';">
+          <div class="card-body">
+            <h2 class="card-title font-weight-bold text-center">{{research.name}}</h2>
+            <h4 class="card-subtitle text-center">
+              <span class="">Technology: </span><i class="text-danger">{{research.technology | titlecase}}</i>
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-9 border-right" style="height: calc(100vh - 52px); ">
+      <div class="row mat-tab-labels text-light" style="font-size: 1.1rem;">
+        <div class="col-12 text-center">
+          <div class="my-2">
+            <div class="col-12 text-center">
+              Research Summary
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-research-basic *ngIf="selectedResearch" [researchData]="selectedResearch" showMore="true" overflow="true"
+        containerHeight="calc(100vh - 90px)"></app-research-basic>
+
+    </div>
+  </div>
+</div>
+
+<div class="col-12 d-flex justify-content-center align-items-center text-light py-2"
+style="font-size: 1.1rem; background-color:#3765F0;" *ngIf="mediaSize === 'xs'">Research</div>
+
+<mat-tab-group [selectedIndex]="selectedIndex" mat-align-tabs="center"
+  (selectedTabChange)="navigateTo($event)" *ngIf="mediaSize === 'xs'">
+  <mat-tab label="Concepts">
+    <div class="container-fluid">
+      <div class="row w-100 d-flex justify-content-center py-2 position-fixed" style="top: 50vh; z-index: 1;"
+        *ngIf="loadingContent === 'loading'">
+        <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
+      </div>
+      <div class="row justify-content-center align-items-start mobile-content-container">
+        <div class="card w-100 my-2 mx-1 pointer card" *ngFor="let research of researchList"
+          (click)="selectedResearch = research;">
+          <img [src]="research.thumbnail" class="card-img-top" alt="..."
+            onerror="this.src='/assets/image-not-found.jpg'">
+          <div class="card-body">
+            <h2 class="card-title font-weight-bold text-center">{{research.name}}</h2>
+            <h4 class="card-subtitle text-center">
+              <span>Technology: </span><i class="text-danger">{{research.technology | titlecase}}</i>
+            </h4>
+          </div>
+          <div class="row justify-content-center">
+            <button mat-icon-button [routerLink]="['/', 'research', research.id]" class="btn rounded-0">
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Code">
+    <div class="container-fluid">
+      <div class="row w-100 d-flex justify-content-center py-2 position-fixed" style="top: 50vh; z-index: 1;"
+        *ngIf="loadingContent === 'loading'">
+        <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
+      </div>
+      <div class="row justify-content-center align-items-start mobile-content-container">
+        <div class="card w-100 my-2 mx-1 pointer card" *ngFor="let research of researchList"
+          (click)="selectedResearch = research;">
+          <img [src]="research.thumbnail" class="card-img-top" alt="..."
+            onerror="this.src='/assets/image-not-found.jpg';">
+          <div class="card-body">
+            <h2 class="card-title font-weight-bold text-center">{{research.name}}</h2>
+            <h4 class="card-subtitle text-center">
+              <span>Technology: </span><i class="text-danger">{{research.technology | titlecase}}</i>
+            </h4>
+          </div>
+          <div class="row justify-content-center">
+            <button mat-icon-button [routerLink]="['/', 'research', research.id]" class="btn rounded-0">
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

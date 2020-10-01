@@ -1,0 +1,12 @@
+<ace-editor #editor
+       [(text)]="code"
+       [mode]="mode"
+       [options]="options"
+       [readOnly]="true"
+       [autoUpdateContent]="true"
+       [durationBeforeCallback]="1000"
+       (textChanged)="onChange($event)"
+       style="font-size: 1.1rem; width:100%; overflow: auto;"
+       >
+</ace-editor>
+

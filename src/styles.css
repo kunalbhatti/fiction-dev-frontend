@@ -1,0 +1,79 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color:#F7F7F7;
+  overflow: hidden;
+}
+
+button:focus {
+  outline: none;
+  border: 0;
+}
+.mat-badge-content {
+  background: gray;
+  color: #F7F7F7;
+
+}
+
+.mat-tab-body-content{
+  height: calc(100vh - 105px) !important;
+  overflow: hidden !important;
+}
+
+.mat-tab-labels{
+  background-color: #213980;
+}
+
+.tab-labels{
+  background-color: #213980;
+  font-size: 1.1rem;
+  padding: 5px 0;
+}
+
+.mat-tab-label-content{
+  color: white !important;
+}
+
+.custom-label-active{
+  box-shadow: inset 0px 0 0 #213980, inset 0 -2px 0 #FBC128, inset 0px 0 0 #213980, inset 0 0px 0 #213980;
+}
+
+.custom-label-active-full{
+  background-color:#FBC128;
+  color: black;
+}
+
+mat-ink-bar.mat-ink-bar {
+  background-color: navajowhite !important;
+}
+
+.card{
+  background-color: #DFE3EE;
+}
+
+.selected-card {
+  background-color: #B9F0B2;
+}
+
+
+.card-title-text{
+  font-size: 1.1rem;
+  padding: 10px 0 !important;
+}
+
+.adjust-scroll-height{
+  height: calc(100vh - 85px) !important;
+  overflow-y:auto;
+  overflow-x: hidden
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.accordian-border {
+  border: solid #C3C7D1 1px !important;
+}

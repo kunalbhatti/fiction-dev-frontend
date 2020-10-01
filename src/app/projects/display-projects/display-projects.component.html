@@ -1,0 +1,110 @@
+<div class="container-fluid" *ngIf="mediaSize !== 'xs'">
+  <div class="row">
+
+    <div class="col-3 border-right" style="height: calc(100vh - 52px);">
+      <div class="row mat-tab-labels text-light pointer" style="font-size: 1.1rem;">
+        <div class="col-6 text-center" routerLinkActive="custom-label-active"
+          [routerLink]="['/', 'projects', 'display-projects', 'modules']">
+          <div class="my-2">Modules</div>
+        </div>
+
+        <div class="col-6 text-center" routerLinkActive="custom-label-active"
+          [routerLink]="['/', 'projects', 'display-projects', 'builds']">
+          <div class="my-2">Builds</div>
+        </div>
+      </div>
+      <div class="row w-100 d-flex justify-content-center py-2 position-fixed" style="top: 50vh; z-index: 1;"
+        *ngIf="loadingContent === 'loading'">
+        <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
+      </div>
+      <div class="row justify-content-center align-items-start overflow-auto" style="height: 94%">
+        <div class="card w-100 my-1 mx-1 pointer" [ngClass]="(selectedProject.id===project.id) ?  'selected-card' : 'card'"
+          *ngFor="let project of projects" (click)="selectedProject = project;">
+          <img [src]="project.thumbnail" class="card-img-top" alt="..."
+          onerror="this.src='/assets/image-not-found.jpg';">
+          <div class="card-body">
+            <h2 class="card-title font-weight-bold text-center">{{project.name}}</h2>
+            <h4 class="card-subtitle text-center">
+              <span class="">Frontend: </span><i class="text-info">{{project.frontend | titlecase}}</i> |
+              <span>Backend: </span><i class="text-danger">{{project.backend | titlecase}}</i>
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-9 border-right" style="height: calc(100vh - 52px); ">
+      <div class="row mat-tab-labels text-light" style="font-size: 1.1rem;">
+        <div class="col-12 text-center">
+          <div class="my-2">
+            <div class="col-12 text-center">
+              Project Summary
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-project-basic *ngIf="selectedProject" [projectData]="selectedProject" showMore="true" overflow="true"
+        containerHeight='calc(100vh - 90px)'></app-project-basic>
+    </div>
+  </div>
+</div>
+
+<div class="col-12 d-flex justify-content-center align-items-center text-light py-2"
+style="font-size: 1.1rem; background-color:#3765F0;" *ngIf="mediaSize === 'xs'">Projects</div>
+
+<mat-tab-group [selectedIndex]="selectedIndex" *ngIf="mediaSize === 'xs'" mat-align-tabs="center"
+  (selectedTabChange)="navigateTo($event)">
+  <mat-tab label="Modules">
+    <div class="container-fluid">
+      <div class="row w-100 d-flex justify-content-center py-2 position-fixed" style="top: 50vh; z-index: 1;"
+        *ngIf="loadingContent === 'loading'"  onerror="this.src='assets/img/image-not-found.html';">
+        <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
+      </div>
+      <div class="row justify-content-center align-items-start mobile-content-container">
+        <div class="w-100 my-2 mx-1 pointer card" *ngFor="let project of projects" (click)="selectedProject = project;">
+          <img [src]="project.thumbnail" class="card-img-top" alt="..."
+          onerror="this.src='/assets/image-not-found.jpg';">
+          <div class="card-body">
+            <h2 class="card-title font-weight-bold text-center">{{project.name}}</h2>
+            <h4 class="card-subtitle text-center">
+              <span class="">Frontend: </span><i class="text-info">{{project.frontend | titlecase}}</i> |
+              <span>Backend: </span><i class="text-danger">{{project.backend | titlecase}}</i>
+            </h4>
+          </div>
+          <div class="row justify-content-center">
+            <button mat-icon-button [routerLink]="['/', 'projects', project.id]" class="btn rounded-0">
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Builds">
+    <div class="container-fluid">
+      <div class="row w-100 d-flex justify-content-center py-2 position-fixed" style="top: 50vh; z-index: 1;"
+        *ngIf="loadingContent === 'loading'">
+        <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
+      </div>
+      <div class="row justify-content-center align-items-start mobile-content-container">
+        <div class="card w-100 my-2 mx-1 pointer card" *ngFor="let project of projects" (click)="selectedProject = project;">
+          <img [src]="project.thumbnail" class="card-img-top" alt="..."
+          onerror="this.src='/assets/image-not-found.jpg';">
+          <div class="card-body">
+            <h2 class="card-title font-weight-bold text-center">{{project.name}}</h2>
+            <h4 class="card-subtitle text-center">
+              <span class="">Frontend: </span><i class="text-info">{{project.frontend | titlecase}}</i> |
+              <span>Backend: </span><i class="text-danger">{{project.backend | titlecase}}</i>
+            </h4>
+          </div>
+          <div class="row justify-content-center">
+            <button mat-icon-button [routerLink]="['/', 'projects', project.id]" class="btn rounded-0">
+              <mat-icon>keyboard_arrow_down</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

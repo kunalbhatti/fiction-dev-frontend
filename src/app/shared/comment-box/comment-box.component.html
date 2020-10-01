@@ -1,0 +1,126 @@
+<div class="card-footer text-muted">
+  <div class="row">
+    <div class="col-3 col-sm-4  text-center">
+      <button mat-icon-button matTooltip="Comments" (click)="getComments()">
+        <mat-icon [matBadge]="(postData.commentCount > 0) ? postData.commentCount : ''"
+          matBadgeSize="small" style="color: #61B0F7">comment</mat-icon>
+      </button>
+    </div>
+    <div class="col-3 col-sm-4 text-center">
+      <button mat-icon-button matTooltip="Tagged To" (click)="showTagBox = !showTagBox; showCommentBox = false;">
+        <mat-icon [matBadge]="postData.tagCount > 0 ? postData.tagCount : ''" matBadgeSize="small"
+          style="color:#734EAD">mediation</mat-icon>
+      </button>
+    </div>
+    <div class="col-6 col-sm-4 text-center">
+      <button [disabled]="postCount >= 10 || !isLoggedIn" mat-icon-button matTooltip="Like"
+        (click)="manageStatusVote('like')">
+        <mat-icon style="color:#5BB06A">arrow_upward</mat-icon>
+      </button>
+      <span>{{postData.voteCount}}</span>
+      <button [disabled]="postCount >= 10 || !isLoggedIn" mat-icon-button matTooltip="Dislike"
+        (click)="manageStatusVote('dislike')">
+        <mat-icon style="color:#FA6764">arrow_downward</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="card-footer" *ngIf="showCommentBox">
+  <div class="row mb-3 px-2" *ngIf="postCount < 10 && showCommentBox && isLoggedIn">
+    <div class="col-12 mt-1" *ngIf="selectedComment.cid === ''">
+      <form class="row form-inline" (ngSubmit)="postComment(f)" #f="ngForm">
+        <input name="comment" ngModel class="col-10 rounded-0 form-control" type="text" placeholder="Comment...">
+        <button type="submit" class="col-2 rounded-0 btn btn-danger d-flex justify-content-center">Post</button>
+      </form>
+    </div>
+    <div class="col-12 mt-1" *ngIf="selectedComment.cid !== ''">
+      <form class="row form-inline" (ngSubmit)="updateComment(f)" #f="ngForm">
+        <input name="comment" [ngModel]=selectedComment.commentData class="col-7 col-sm-9 rounded-0 form-control"
+          type="text" placeholder="Comment...">
+
+        <button type="submit"
+          class="col-3 col-sm-2 rounded-0 btn btn-success d-flex justify-content-center">Update</button>
+        <button type="button" (click)="selectedComment.cid = ''"
+          class="col-2 col-sm-1 rounded-0 btn btn-danger d-flex justify-content-center">
+          x</button>
+      </form>
+    </div>
+  </div>
+  <div class="container-fluid w-100">
+    <div class="row border border-dark rounded p-2 my-2 comment-box"
+      *ngFor="let comment of comments; trackBy: trackByCommentId; let i = index;">
+
+      <div class="col-6 text-muted mt-2">
+        {{(comment.date != null) ? (comment.date.toDate() | date: 'dd MMM yy'):""}}
+      </div>
+      <div class="col-6 text-right" *ngIf="postCount < 10">
+        <button *ngIf="comment.uid === loggedUserId && isLoggedIn" mat-icon-button matTooltip="Update" (click)="selectedComment = {
+                  uid: comment.uid,
+                  cid: comment.id,
+                  commentData : comment.comment}">
+          <mat-icon style="font-size: 1.1rem" color="primary">edit</mat-icon>
+        </button>
+
+        <button *ngIf="comment.uid === loggedUserId && isLoggedIn" mat-icon-button matTooltip="Delete"
+          (click)="deleteComment(comment.id)">
+          <mat-icon style="font-size: 1.1rem" color="warn">clear</mat-icon>
+        </button>
+      </div>
+
+      <div class="col-12 my-2">
+        {{comment.comment}}
+      </div>
+
+      <div class="col-6">
+        <div class="row justify-content-start flex-sm-row">
+          <button [disabled]="postCount >= 10 || !isLoggedIn" mat-icon-button
+            (click)="manageCommentVote('like', comment, i)">
+            <mat-icon style="color:#5BB06A">arrow_drop_up</mat-icon>
+          </button>
+          <button mat-icon-button disabled class="mx-n3">
+            {{comment.voteCount}}
+          </button>
+          <button [disabled]="postCount >= 10 || !isLoggedIn" mat-icon-button
+            (click)="manageCommentVote('dislike', comment, i)">
+            <mat-icon style="color: #FA6764">arrow_drop_down</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="col-6 d-flex justify-content-end align-items-center text-muted">
+        {{comment.name}}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 text-center text-muted mt-2">
+      <button *ngIf="comments.length < postData.commentCount" [disabled]="eof === 'loading'" disableRipple="true"
+        mat-button (click)="loadNextComments()">
+        <span *ngIf="eof === 'loading' && postData.commentCount != 0">
+          <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+        </span>
+        <span *ngIf="eof === ''">
+          <mat-icon>arrow_drop_down</mat-icon>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="card-footer" *ngIf="showTagBox && (postData.projectTags || postData.researchTags)">
+  <div class="row border border-dark rounded p-2 my-2 comment-box">
+    <div class="col-6 border-right border-dark">
+      <div class="col-12 text-danger mt-1" style="font-size: 0.8rem;">Projects</div>
+      <div class="col-12 my-1" *ngFor="let project of postData.projectTags | keyvalue">
+        <a class="text-primary btn-link mb-1" [routerLink]="['/', 'projects', project.key]">{{project.value}}</a>
+      </div>
+    </div>
+
+    <div class="col-6 border-right">
+      <div class="col-12 text-danger mt-1" style="font-size: 0.8rem;">Research</div>
+      <div class="col-12 my-1" *ngFor="let research of postData.researchTags | keyvalue">
+        <a class="text-primary btn-link mb-1" [routerLink]="['/', 'research', research.key]">{{research.value}}</a>
+      </div>
+    </div>
+  </div>
+</div>
